@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV Pelajar - Student Portfolio</title>
+  
+  <!-- Font Google & Icon FontAwesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --border-color: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --primary-hover: #0284c7;
+      --accent: #818cf8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    .cv-container {
+      max-width: 800px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: #475569;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Hero Section */
+    .hero-card {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .profile-wrapper {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .profile-photo {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--primary);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+    }
+
+    .upload-btn {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      background: var(--primary);
+      color: #0f172a;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 2px solid var(--card-bg);
+      transition: background 0.2s;
+    }
+
+    .upload-btn:hover {
+      background: var(--primary-hover);
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #22c55e;
+    }
+
+    .hero-text h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .hero-text .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+
+    .hero-text .bio {
+      color: #cbd5e1;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* Timeline */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      border-left: 2px solid var(--border-color);
+      padding-left: 24px;
+      margin-left: 8px;
+      position: relative;
+    }
+
+    .timeline-item {
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -31px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      background: var(--primary);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--primary);
+    }
+
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .timeline-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .timeline-date {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      background: #0f172a;
+      padding: 4px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .org-name {
+      font-size: 0.85rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .timeline-item ul {
+      padding-left: 18px;
+      color: #cbd5e1;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+
+    .timeline-item li {
+      margin-bottom: 6px;
+    }
+
+    /* Pendidikan */
+    .edu-box {
+      background: #0f172a;
+      padding: 16px 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .edu-info h3 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .edu-info p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Target & Goals */
+    .goals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .goal-card {
+      background: #0f172a;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .goal-card h4 {
+      font-size: 0.9rem;
+      color: var(--accent);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .goal-card p {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    .footer-card {
+      text-align: center;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    }
+
+    .contact-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: #0f172a;
+      padding: 10px 22px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: rgba(56, 189, 248, 0.1);
+    }
+
+    @media (max-width: 640px) {
+      .hero-card {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .status-badge {
+        justify-content: center;
+      }
+
+      .timeline-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .contact-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cv-container">
+    
+    <!-- HERO SECTION -->
+    <header class="card hero-card">
+      <div class="profile-wrapper">
+        <img id="profileImage" src="foto-profil.jpg" alt="Foto Profil Pelajar" class="profile-photo" onerror="
+        
+        <label for="fileInput" class="upload-btn" title="Ganti Foto">
+          <i class="fa-solid fa-camera"></i>
+        </label>
+        <input type="file" id="fileInput" accept="image/*">
+      </div>
+
+      <div class="hero-text">
+        <div class="status-badge">
+          <span class="status-dot"></span> Siswa Aktif & Pengurus Organisasi
+        </div>
+        <h1>Nabilla Nursaeda</h1>
+        <p class="subtitle">Siswa Kelas X</p>
+        <p class="bio">
+          Siswa SMA yang berdedikasi tinggi dan aktif dalam kegiatan organisasi sekolah di Bandung.
+        </p>
+      </div>
+    </header>
+
+    <!-- PENGALAMAN ORGANISASI -->
+    <section class="card">
+      <h2><i class="fa-solid fa-sitemap"></i> Pengalaman Organisasi & Ekstrakurikuler</h2>
+      
+      <div class="timeline">
+        
+        <div class="timeline-item">
+          <div class="timeline-header">
+            <span class="timeline-title">Koordinator Seksi Bidang 3 (Pembinaan Kepribadian Unggul, Wawasan Kebangsaan, dan Bela Negara.)</span>
+            <span class="timeline-date">2024 – 2025</span>
+          </div>
+          <p class="org-name">SMP Negeri 56 Bandung</p>
+          <ul>
+            <li>Berperan aktif dalam perencanaan dan pelaksanaan acara peringatan hari besar nasional dan kegiatan siswa di sekolah.</li>
+            <li>Mengatur koordinasi antar divisi panitia agar jadwal dan alur kegiatan berjalan sesuai rencana.</li>
+            <li>Membantu ketua OSIS dalam mendisiplinkan calon anggota pengurus OSIS selanjutnya.</li>
+          </ul>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-header">
+            <span class="timeline-title">Bendahara Pusat Informasi dan Konseling Remaja (PIK-R) Gaparama SMP Negeri 56 Bandung</span>
+            <span class="timeline-date">2024 – 2026</span>
+          </div>
+          <p class="org-name">SMP Negeri 56 Bandung</p>
+          <ul>
+            <li>Mengelola keuangan PIK-R Gaparama.</li>
+            <li>Mengatur pemasukan dan pengeluaran uang kas pik-r.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PENDIDIKAN -->
+    <section class="card">
+      <h2><i class="fa-solid fa-graduation-cap"></i> Riwayat Pendidikan</h2>
+      <div class="edu-box">
+        <div class="edu-info">
+          <h3>SD Negeri 258 Sukarela</h3>
+        </div>
+        <span class="timeline-date">2017 – 2023</span>
+      </div>
+      <h3>SMP Negeri 56 Bandung</h3>
+  </div>
+  <span class="timeline-date">2023 - 2026</span>
+</div>
+  <h3>SMA Negeri 19 Bandung</h3>
+</div>
+  <span class="timeline-date">2026 - sekarang</span>
+    </section>
+
+    <!-- TARGET & MINAT -->
+    <section class="card">
+      <h2><i class="fa-solid fa-bullseye"></i> Target & Prinsip Belajar</h2>
+      <div class="goals-grid">
+        <div class="goal-card">
+          <h4><i class="fa-solid fa-compass"></i> Prinsip Belajar</h4>
+          <p>"Terus mengasah potensi diri melalui keaktifan berorganisasi."</p>
+        </div>
+        <div class="goal-card">
+          <h4><i class="fa-solid fa-rocket"></i> Ambisi Masa Depan</h4>
+          <p>Melanjutkan pendidikan ke jenjang perguruan tinggi negeri pada jurusan Ilmu sosial dan Ilmu politik.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER & KONTAK -->
+    <footer class="card footer-card">
+      <h2>📬 Hubungi Saya</h2>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">
+        Terbuka untuk diskusi kegiatan sekolah, kolaborasi organisasi, maupun kegiatan akademis.
+      </p>
+      
+      <div class="contact-buttons">
+        <a href="mailto:sitinurhaliza@gmail.com" class="btn">
+          <i class="fa-solid fa-envelope"></i> Kirim Email
+        </a>
+        <a href="Instagram: @llnrsd" target="_blank" class="btn btn-outline">
+          <i class="fa-brands fa-instagram"></i> Instagram
+        </a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // Fitur Ganti Foto Profil
+    const fileInput = document.getElementById('fileInput');
+    const profileImage = document.getElementById('profileImage');
+
+    fileInput.addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          profileImage.src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
+</body>
+</html>
